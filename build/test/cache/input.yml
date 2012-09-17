@@ -1,0 +1,206 @@
+--- 
+:test_includes_preprocessor: 
+  :arguments: []
+
+:release_dependencies_generator: 
+  :arguments: []
+
+:test_file_preprocessor: 
+  :arguments: []
+
+:tools: 
+  :test_includes_preprocessor: 
+    :executable: cpp
+    :background_exec: :none
+    :name: default_test_includes_preprocessor
+    :stderr_redirect: :none
+    :arguments: 
+    - -MM
+    - -MG
+    - -I"$": "{SystemWrapper.windows? ? COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE : COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE.map{|path| path.gsub(/ /, '\\\\ ') }}"
+    - -D$: COLLECTION_DEFINES_TEST_AND_VENDOR
+    - -D$: DEFINES_TEST_PREPROCESS
+    - -DGNU_PREPROCESSOR
+    - -w
+    - -nostdinc
+    - "\"${1}\""
+    :optional: false
+  :test_file_preprocessor: 
+    :executable: gcc
+    :background_exec: :none
+    :name: default_test_file_preprocessor
+    :stderr_redirect: :none
+    :arguments: 
+    - -E
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - -D$: COLLECTION_DEFINES_TEST_AND_VENDOR
+    - -D$: DEFINES_TEST_PREPROCESS
+    - -DGNU_PREPROCESSOR
+    - "\"${1}\""
+    - -o "${2}"
+    :optional: false
+  :test_compiler: 
+    :executable: gcc
+    :background_exec: :none
+    :name: default_test_compiler
+    :stderr_redirect: :none
+    :arguments: 
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - -D$: COLLECTION_DEFINES_TEST_AND_VENDOR
+    - -DGNU_COMPILER
+    - -c "${1}"
+    - -o "${2}"
+    :optional: false
+  :test_linker: 
+    :executable: gcc
+    :background_exec: :none
+    :name: default_test_linker
+    :stderr_redirect: :none
+    :arguments: 
+    - "\"${1}\""
+    - -o "${2}"
+    :optional: false
+  :test_fixture: 
+    :executable: ${1}
+    :background_exec: :none
+    :name: default_test_fixture
+    :stderr_redirect: :auto
+    :arguments: []
+
+    :optional: false
+:test_runner: 
+  :file_suffix: _runner
+  :includes: []
+
+:cmock: 
+  :verbosity: 3
+  :treat_as: 
+    bool: UINT8
+    uint8: HEX8
+    uint32: UINT32
+    int8: INT8
+    uint16: HEX16
+  :plugins: 
+  - :ignore
+  :mock_prefix: Mock
+  :when_no_prototypes: :warn
+  :defines: []
+
+  :enforce_strict_ordering: true
+  :unity_helper: false
+  :mock_path: build/test/mocks
+:plugins: 
+  :module_generator_path: vendor/ceedling/plugins/module_generator/lib
+  :enabled: 
+  - stdout_pretty_tests_report
+  - module_generator
+  :load_paths: 
+  - vendor/ceedling/plugins
+  :display_raw_test_results: false
+  :stdout_pretty_tests_report_path: vendor/ceedling/plugins/stdout_pretty_tests_report/lib
+:cexception: 
+  :defines: []
+
+:extension: 
+  :header: .h
+  :executable: .out
+  :assembly: .s
+  :testpass: .pass
+  :object: .o
+  :testfail: .fail
+  :source: .c
+  :list: .lst
+  :dependencies: .d
+  :map: .map
+:test_dependencies_generator: 
+  :arguments: []
+
+:flags: {}
+
+:test_compiler: 
+  :arguments: []
+
+:defines: 
+  :test: 
+  - &id001 []
+
+  - TEST
+  :commmon: []
+
+  :test_preprocess: 
+  - *id001
+  - TEST
+  :release: []
+
+  :release_preprocess: []
+
+:files: 
+  :test: []
+
+  :assembly: []
+
+  :include: []
+
+  :source: []
+
+  :support: []
+
+:release_build: 
+  :artifacts: []
+
+  :use_assembly: false
+:release_compiler: 
+  :arguments: []
+
+:unity: 
+  :defines: []
+
+:environment: 
+- :rake_columns: "120"
+:project: 
+  :test_threads: 1
+  :use_auxiliary_dependencies: true
+  :use_deep_dependencies: false
+  :test_file_prefix: test_
+  :options_paths: []
+
+  :use_exceptions: false
+  :release_build: false
+  :use_mocks: true
+  :use_test_preprocessor: true
+  :compile_threads: 1
+  :build_root: build
+:test_linker: 
+  :arguments: []
+
+:release_assembler: 
+  :arguments: []
+
+:paths: 
+  :test: 
+  - +:test/**
+  - -:test/support
+  :include: []
+
+  :source: 
+  - src/**
+  :support: 
+  - test/support
+  :test_toolchain_include: []
+
+  :release_toolchain_include: []
+
+:module_generator: 
+  :project_root: ./
+  :source_root: src/
+  :test_root: test/
+:test_fixture: 
+  :arguments: []
+
+  :link_objects: []
+
+:release_linker: 
+  :arguments: []
+

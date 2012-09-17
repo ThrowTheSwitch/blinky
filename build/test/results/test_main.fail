@@ -1,0 +1,19 @@
+--- 
+:successes: []
+
+:failures: 
+- :test: test_AppMain_should_run_until_abort_requested
+  :message: Function 'System_AbortRequested' called less times than expected.
+  :line: 13
+:ignores: []
+
+:source: 
+  :path: test
+  :file: test_main.c
+:stdout: []
+
+:counts: 
+  :passed: 0
+  :failed: 1
+  :ignored: 0
+  :total: 1
