@@ -30,7 +30,7 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_module_generator_needs_to_be_implemented(void);
+extern void test_System_AbortRequested_should_return_FALSE_for_now(void);
 
 
 //=======Test Reset Option=====
@@ -46,7 +46,7 @@ int main(void)
 {
   Unity.TestFile = "test_System.c";
   UnityBegin();
-  RUN_TEST(test_module_generator_needs_to_be_implemented, 12);
+  RUN_TEST(test_System_AbortRequested_should_return_FALSE_for_now, 12);
 
   return (UnityEnd());
 }

@@ -1,6 +1,8 @@
 #include "unity.h"
 #include "main.h"
+#include "MockTimer.h"
 #include "MockSystem.h"
+#include "MockLED.h"
 
 
 void setUp(void)
@@ -19,15 +21,19 @@ void tearDown(void)
 
 
 
-void test_AppMain_should_run_until_abort_requested(void)
+void test_AppMain_should_initialize_modules_and_run_until_abort_requested(void)
 
 {
 
-    System_AbortRequested_CMockExpectAndReturn(15, (0));
+    LED_Init_CMockExpect(17);
 
-    System_AbortRequested_CMockExpectAndReturn(16, (0));
+    Timer_Init_CMockExpect(18);
 
-    System_AbortRequested_CMockExpectAndReturn(17, (1));
+    System_AbortRequested_CMockExpectAndReturn(19, (0));
+
+    System_AbortRequested_CMockExpectAndReturn(20, (0));
+
+    System_AbortRequested_CMockExpectAndReturn(21, (1));
 
 
 

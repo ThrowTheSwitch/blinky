@@ -9,7 +9,8 @@ void tearDown(void)
 {
 }
 
-void test_module_generator_needs_to_be_implemented(void)
+void test_System_AbortRequested_should_return_FALSE_for_now(void)
 {
-	TEST_IGNORE_MESSAGE("Implement me!");
+    TEST_ASSERT_FALSE(System_AbortRequested());
 }
+

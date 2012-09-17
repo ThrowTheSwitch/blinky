@@ -1,5 +1,7 @@
 #include "main.h"
 #include "System.h"
+#include "LED.h"
+#include "Timer.h"
 
 #ifndef TEST
 int main(void)
@@ -10,6 +12,13 @@ int main(void)
 
 int AppMain(void)
 {
-    
+    LED_Init();
+    Timer_Init();
+
+    while(!System_AbortRequested())
+    {
+
+    }
+
     return 0;
 }

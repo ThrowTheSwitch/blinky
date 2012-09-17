@@ -26,7 +26,9 @@
 #include "cmock.h"
 #include <setjmp.h>
 #include <stdio.h>
+#include "MockLED.h"
 #include "MockSystem.h"
+#include "MockTimer.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -35,7 +37,7 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_AppMain_should_run_until_abort_requested(void);
+extern void test_AppMain_should_initialize_modules_and_run_until_abort_requested(void);
 
 
 //=======Mock Management=====
@@ -44,15 +46,21 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
+  MockLED_Init();
   MockSystem_Init();
+  MockTimer_Init();
 }
 static void CMock_Verify(void)
 {
+  MockLED_Verify();
   MockSystem_Verify();
+  MockTimer_Verify();
 }
 static void CMock_Destroy(void)
 {
+  MockLED_Destroy();
   MockSystem_Destroy();
+  MockTimer_Destroy();
 }
 
 //=======Test Reset Option=====
@@ -71,7 +79,7 @@ int main(void)
 {
   Unity.TestFile = "test_main.c";
   UnityBegin();
-  RUN_TEST(test_AppMain_should_run_until_abort_requested, 13);
+  RUN_TEST(test_AppMain_should_initialize_modules_and_run_until_abort_requested, 15);
 
   return (UnityEnd());
 }
