@@ -1,20 +1,14 @@
 --- 
-:test_compiler: 
+:release_assembler: 
   :arguments: []
-
-:release_compiler: 
-  :arguments: []
-
-:test_runner: 
-  :file_suffix: _runner
-  :includes: []
 
 :test_linker: 
   :arguments: []
 
-:cexception: 
-  :defines: []
+:test_runner: 
+  :includes: []
 
+  :file_suffix: _runner
 :defines: 
   :test: 
   - &id001 []
@@ -29,94 +23,50 @@
 
   :commmon: []
 
-:plugins: 
-  :enabled: 
-  - stdout_pretty_tests_report
-  - module_generator
-  :load_paths: 
-  - vendor/ceedling/plugins
-  :display_raw_test_results: false
-  :stdout_pretty_tests_report_path: vendor/ceedling/plugins/stdout_pretty_tests_report/lib
-  :module_generator_path: vendor/ceedling/plugins/module_generator/lib
-:release_assembler: 
+:test_dependencies_generator: 
   :arguments: []
 
 :test_fixture: 
+  :link_objects: []
+
   :arguments: []
 
-  :link_objects: []
+:plugins: 
+  :display_raw_test_results: false
+  :stdout_pretty_tests_report_path: vendor/ceedling/plugins/stdout_pretty_tests_report/lib
+  :module_generator_path: vendor/ceedling/plugins/module_generator/lib
+  :load_paths: 
+  - vendor/ceedling/plugins
+  :enabled: 
+  - stdout_pretty_tests_report
+  - module_generator
+:release_dependencies_generator: 
+  :arguments: []
 
 :flags: {}
 
-:release_build: 
-  :artifacts: []
-
-  :use_assembly: false
-  :output: MyApp.out
 :module_generator: 
   :source_root: src/
   :test_root: test/
   :project_root: ./
-:release_linker: 
+:release_compiler: 
   :arguments: []
 
-:cmock: 
-  :verbosity: 3
-  :defines: []
-
-  :mock_prefix: Mock
-  :plugins: 
-  - :ignore
-  :treat_as: 
-    uint32: UINT32
-    uint8: HEX8
-    bool: UINT8
-    int8: INT8
-    uint16: HEX16
-  :enforce_strict_ordering: true
-  :unity_helper: false
-  :mock_path: build/test/mocks
-  :when_no_prototypes: :warn
 :unity: 
   :defines: []
 
 :files: 
   :test: []
 
-  :include: []
-
   :support: []
+
+  :include: []
 
   :source: []
 
   :assembly: []
 
-:project: 
-  :use_auxiliary_dependencies: true
-  :use_deep_dependencies: false
-  :options_paths: []
-
-  :use_exceptions: false
-  :use_mocks: true
-  :release_build: true
-  :compile_threads: 1
-  :use_test_preprocessor: true
-  :test_threads: 1
-  :build_root: build
-  :test_file_prefix: test_
 :test_includes_preprocessor: 
-  :arguments: []
-
-:environment: 
-- :rake_columns: "120"
-- :mcu: atmega328p
-- :f_cpu: 16000000UL
-- :serial_port: /dev/tty.usbmodemfd121
-- :objcopy: avr-objcopy
-:release_dependencies_generator: 
-  :arguments: []
-
-:test_file_preprocessor: 
   :arguments: []
 
 :extension: 
@@ -127,44 +77,46 @@
   :source: .c
   :list: .lst
   :dependencies: .d
-  :map: .map
   :assembly: .s
   :header: .h
-:paths: 
-  :test: 
-  - +:test/**
-  - -:test/support
-  :include: []
+  :map: .map
+:environment: 
+- :rake_columns: "120"
+- :mcu: atmega328p
+- :f_cpu: 16000000UL
+- :serial_port: /dev/tty.usbmodemfd121
+- :objcopy: avr-objcopy
+:release_build: 
+  :output: MyApp.out
+  :use_assembly: false
+  :artifacts: []
 
-  :support: 
-  - test/support
-  :source: 
-  - src/**
-  :test_toolchain_include: []
+:release_linker: 
+  :arguments: []
 
-  :release_toolchain_include: []
-
-  :test_include: 
-  - +:test/support/avr
 :tools: 
-  :test_compiler: 
+  :test_linker: 
     :executable: gcc
-    :optional: false
     :stderr_redirect: :none
-    :name: default_test_compiler
-    :arguments: 
-    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
-    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
-    - -D$: COLLECTION_DEFINES_TEST_AND_VENDOR
-    - -DGNU_COMPILER
-    - -c "${1}"
-    - -o "${2}"
     :background_exec: :none
-  :release_compiler: 
     :optional: false
+    :arguments: 
+    - "\"${1}\""
+    - -o "${2}"
+    :name: default_test_linker
+  :test_fixture: 
+    :executable: ${1}
+    :stderr_redirect: :auto
+    :background_exec: :none
+    :optional: false
+    :arguments: []
+
+    :name: default_test_fixture
+  :release_compiler: 
     :executable: avr-gcc
     :stderr_redirect: :none
-    :name: release_compiler
+    :background_exec: :none
+    :optional: false
     :arguments: 
     - ${1}
     - -DTARGET
@@ -175,39 +127,12 @@
     - -Os
     - -c
     - -o ${2}
-    :background_exec: :none
-  :test_linker: 
-    :executable: gcc
-    :optional: false
-    :stderr_redirect: :none
-    :name: default_test_linker
-    :arguments: 
-    - "\"${1}\""
-    - -o "${2}"
-    :background_exec: :none
-  :test_fixture: 
-    :executable: ${1}
-    :optional: false
-    :stderr_redirect: :auto
-    :name: default_test_fixture
-    :arguments: []
-
-    :background_exec: :none
-  :release_linker: 
-    :optional: false
-    :executable: avr-gcc
-    :stderr_redirect: :none
-    :name: release_linker
-    :arguments: 
-    - -mmcu=#{ENV['MCU']}
-    - ${1}
-    - -o ${2}.bin
-    :background_exec: :none
+    :name: release_compiler
   :test_includes_preprocessor: 
     :executable: cpp
-    :optional: false
     :stderr_redirect: :none
-    :name: default_test_includes_preprocessor
+    :background_exec: :none
+    :optional: false
     :arguments: 
     - -MM
     - -MG
@@ -218,12 +143,22 @@
     - -w
     - -nostdinc
     - "\"${1}\""
+    :name: default_test_includes_preprocessor
+  :release_linker: 
+    :executable: avr-gcc
+    :stderr_redirect: :none
     :background_exec: :none
+    :optional: false
+    :arguments: 
+    - -mmcu=#{ENV['MCU']}
+    - ${1}
+    - -o ${2}.bin
+    :name: release_linker
   :test_file_preprocessor: 
     :executable: gcc
-    :optional: false
     :stderr_redirect: :none
-    :name: default_test_file_preprocessor
+    :background_exec: :none
+    :optional: false
     :arguments: 
     - -E
     - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
@@ -233,7 +168,72 @@
     - -DGNU_PREPROCESSOR
     - "\"${1}\""
     - -o "${2}"
+    :name: default_test_file_preprocessor
+  :test_compiler: 
+    :executable: gcc
+    :stderr_redirect: :none
     :background_exec: :none
-:test_dependencies_generator: 
+    :optional: false
+    :arguments: 
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - -D$: COLLECTION_DEFINES_TEST_AND_VENDOR
+    - -DGNU_COMPILER
+    - -c "${1}"
+    - -o "${2}"
+    :name: default_test_compiler
+:cmock: 
+  :defines: []
+
+  :mock_prefix: Mock
+  :when_no_prototypes: :warn
+  :enforce_strict_ordering: true
+  :plugins: 
+  - :ignore
+  :mock_path: build/test/mocks
+  :verbosity: 3
+  :unity_helper: false
+  :treat_as: 
+    uint16: HEX16
+    int8: INT8
+    uint8: HEX8
+    uint32: UINT32
+    bool: UINT8
+:test_file_preprocessor: 
   :arguments: []
 
+:paths: 
+  :test: 
+  - +:test/**
+  - -:test/support
+  :support: 
+  - test/support
+  :include: []
+
+  :test_toolchain_include: []
+
+  :source: 
+  - src/**
+  :release_toolchain_include: []
+
+  :test_include: 
+  - +:test/support/avr
+:test_compiler: 
+  :arguments: []
+
+:cexception: 
+  :defines: []
+
+:project: 
+  :use_auxiliary_dependencies: true
+  :use_deep_dependencies: false
+  :use_exceptions: false
+  :test_file_prefix: test_
+  :use_mocks: true
+  :options_paths: []
+
+  :compile_threads: 1
+  :release_build: true
+  :build_root: build
+  :test_threads: 1
+  :use_test_preprocessor: true

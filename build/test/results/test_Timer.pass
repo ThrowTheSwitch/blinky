@@ -1,19 +1,28 @@
 --- 
+:failures: []
+
 :ignores: []
+
+:stdout: []
 
 :source: 
   :path: test
   :file: test_Timer.c
-:stdout: []
-
-:successes: 
-- :test: test_Timer_Init_should_initialize_timer_to_overflow_at_1ms_interval
-  :message: ""
-  :line: 17
 :counts: 
-  :total: 1
+  :passed: 4
   :failed: 0
   :ignored: 0
-  :passed: 1
-:failures: []
-
+  :total: 4
+:successes: 
+- :test: test_Timer_should_initialize_ticks_to_0
+  :message: ""
+  :line: 19
+- :test: test_Timer_Init_should_initialize_timer_to_overflow_at_1ms_interval
+  :message: ""
+  :line: 25
+- :test: test_Timer_ToggleRequested_should_return_toggle_status_and_reset_if_signaled
+  :message: ""
+  :line: 36
+- :test: test_ISR_should_signal_every_500ms
+  :message: ""
+  :line: 50

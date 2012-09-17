@@ -15,5 +15,9 @@ void MockTimer_Verify(void);
 void Timer_Init_CMockIgnore(void);
 #define Timer_Init_Expect() Timer_Init_CMockExpect(__LINE__)
 void Timer_Init_CMockExpect(UNITY_LINE_TYPE cmock_line);
+#define Timer_ToggleRequested_IgnoreAndReturn(cmock_retval) Timer_ToggleRequested_CMockIgnoreAndReturn(__LINE__, cmock_retval)
+void Timer_ToggleRequested_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, int cmock_to_return);
+#define Timer_ToggleRequested_ExpectAndReturn(cmock_retval) Timer_ToggleRequested_CMockExpectAndReturn(__LINE__, cmock_retval)
+void Timer_ToggleRequested_CMockExpectAndReturn(UNITY_LINE_TYPE cmock_line, int cmock_to_return);
 
 #endif

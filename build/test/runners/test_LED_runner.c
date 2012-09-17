@@ -31,6 +31,7 @@ char* GlobalOrderError;
 extern void setUp(void);
 extern void tearDown(void);
 extern void test_LED_Init_should_initialize_the_LED_OFF(void);
+extern void test_LED_Toggle_should_toggle_the_LED(void);
 
 
 //=======Test Reset Option=====
@@ -47,6 +48,7 @@ int main(void)
   Unity.TestFile = "test_LED.c";
   UnityBegin();
   RUN_TEST(test_LED_Init_should_initialize_the_LED_OFF, 13);
+  RUN_TEST(test_LED_Toggle_should_toggle_the_LED, 25);
 
   return (UnityEnd());
 }

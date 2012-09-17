@@ -13,10 +13,19 @@ typedef struct _CMOCK_LED_Init_CALL_INSTANCE
 
 } CMOCK_LED_Init_CALL_INSTANCE;
 
+typedef struct _CMOCK_LED_Toggle_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+
+} CMOCK_LED_Toggle_CALL_INSTANCE;
+
 static struct MockLEDInstance
 {
   int LED_Init_IgnoreBool;
   CMOCK_MEM_INDEX_TYPE LED_Init_CallInstance;
+  int LED_Toggle_IgnoreBool;
+  CMOCK_MEM_INDEX_TYPE LED_Toggle_CallInstance;
 } Mock;
 
 extern jmp_buf AbortFrame;
@@ -29,6 +38,9 @@ void MockLED_Verify(void)
   if (Mock.LED_Init_IgnoreBool)
     Mock.LED_Init_CallInstance = CMOCK_GUTS_NONE;
   UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.LED_Init_CallInstance, cmock_line, "Function 'LED_Init' called less times than expected.");
+  if (Mock.LED_Toggle_IgnoreBool)
+    Mock.LED_Toggle_CallInstance = CMOCK_GUTS_NONE;
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == Mock.LED_Toggle_CallInstance, cmock_line, "Function 'LED_Toggle' called less times than expected.");
 }
 
 void MockLED_Init(void)
@@ -72,6 +84,38 @@ void LED_Init_CMockExpect(UNITY_LINE_TYPE cmock_line)
   CMOCK_LED_Init_CALL_INSTANCE* cmock_call_instance = (CMOCK_LED_Init_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, "CMock has run out of memory. Please allocate more.");
   Mock.LED_Init_CallInstance = CMock_Guts_MemChain(Mock.LED_Init_CallInstance, cmock_guts_index);
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+}
+
+void LED_Toggle(void)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_LED_Toggle_CALL_INSTANCE* cmock_call_instance = (CMOCK_LED_Toggle_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.LED_Toggle_CallInstance);
+  Mock.LED_Toggle_CallInstance = CMock_Guts_MemNext(Mock.LED_Toggle_CallInstance);
+  if (Mock.LED_Toggle_IgnoreBool)
+  {
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, "Function 'LED_Toggle' called more times than expected.");
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, "Function 'LED_Toggle' called earlier than expected.");
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, "Function 'LED_Toggle' called later than expected.");
+}
+
+void LED_Toggle_CMockIgnore(void)
+{
+  Mock.LED_Toggle_IgnoreBool = (int)1;
+}
+
+void LED_Toggle_CMockExpect(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_LED_Toggle_CALL_INSTANCE));
+  CMOCK_LED_Toggle_CALL_INSTANCE* cmock_call_instance = (CMOCK_LED_Toggle_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, "CMock has run out of memory. Please allocate more.");
+  Mock.LED_Toggle_CallInstance = CMock_Guts_MemChain(Mock.LED_Toggle_CallInstance, cmock_guts_index);
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
 }

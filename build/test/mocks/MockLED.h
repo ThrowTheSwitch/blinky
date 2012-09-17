@@ -15,5 +15,9 @@ void MockLED_Verify(void);
 void LED_Init_CMockIgnore(void);
 #define LED_Init_Expect() LED_Init_CMockExpect(__LINE__)
 void LED_Init_CMockExpect(UNITY_LINE_TYPE cmock_line);
+#define LED_Toggle_Ignore() LED_Toggle_CMockIgnore()
+void LED_Toggle_CMockIgnore(void);
+#define LED_Toggle_Expect() LED_Toggle_CMockExpect(__LINE__)
+void LED_Toggle_CMockExpect(UNITY_LINE_TYPE cmock_line);
 
 #endif

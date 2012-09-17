@@ -17,7 +17,10 @@ int AppMain(void)
 
     while(!System_AbortRequested())
     {
-
+        if (Timer_ToggleRequested())
+        {
+            LED_Toggle();
+        }
     }
 
     return 0;

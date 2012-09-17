@@ -2,11 +2,8 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
-#ifdef TEST
-char TCCR0B;
-char TIMSK0;
-char DDRB;
-#endif
+int ticks = 0;
+BOOL toggle = FALSE;
 
 void Timer_Init(void)
 {
@@ -16,4 +13,21 @@ void Timer_Init(void)
     TIMSK0 = 0x01;
 
     sei();
+}
+
+BOOL Timer_ToggleRequested(void)
+{
+    BOOL ret = toggle;
+    toggle = FALSE;
+    return ret;
+}
+
+ISR(TIMER0_OVF_vect)
+{
+    ticks++;
+    if (ticks == 500)
+    {
+        toggle = TRUE;
+        ticks = 0;
+    }
 }

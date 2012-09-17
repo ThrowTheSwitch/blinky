@@ -1,19 +1,22 @@
 --- 
+:failures: []
+
 :ignores: []
+
+:stdout: []
 
 :source: 
   :path: test
   :file: test_LED.c
-:stdout: []
-
+:counts: 
+  :passed: 2
+  :failed: 0
+  :ignored: 0
+  :total: 2
 :successes: 
 - :test: test_LED_Init_should_initialize_the_LED_OFF
   :message: ""
   :line: 13
-:counts: 
-  :total: 1
-  :failed: 0
-  :ignored: 0
-  :passed: 1
-:failures: []
-
+- :test: test_LED_Toggle_should_toggle_the_LED
+  :message: ""
+  :line: 25

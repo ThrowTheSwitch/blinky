@@ -35,7 +35,10 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
+extern void test_Timer_should_initialize_ticks_to_0(void);
 extern void test_Timer_Init_should_initialize_timer_to_overflow_at_1ms_interval(void);
+extern void test_Timer_ToggleRequested_should_return_toggle_status_and_reset_if_signaled(void);
+extern void test_ISR_should_signal_every_500ms(void);
 
 
 //=======Mock Management=====
@@ -71,7 +74,10 @@ int main(void)
 {
   Unity.TestFile = "test_Timer.c";
   UnityBegin();
-  RUN_TEST(test_Timer_Init_should_initialize_timer_to_overflow_at_1ms_interval, 17);
+  RUN_TEST(test_Timer_should_initialize_ticks_to_0, 19);
+  RUN_TEST(test_Timer_Init_should_initialize_timer_to_overflow_at_1ms_interval, 25);
+  RUN_TEST(test_Timer_ToggleRequested_should_return_toggle_status_and_reset_if_signaled, 36);
+  RUN_TEST(test_ISR_should_signal_every_500ms, 50);
 
   return (UnityEnd());
 }

@@ -29,11 +29,27 @@ void test_AppMain_should_initialize_modules_and_run_until_abort_requested(void)
 
     Timer_Init_CMockExpect(18);
 
-    System_AbortRequested_CMockExpectAndReturn(19, (0));
 
-    System_AbortRequested_CMockExpectAndReturn(20, (0));
 
-    System_AbortRequested_CMockExpectAndReturn(21, (1));
+
+
+    System_AbortRequested_CMockExpectAndReturn(21, (0));
+
+    Timer_ToggleRequested_CMockExpectAndReturn(22, (0));
+
+
+
+
+
+    System_AbortRequested_CMockExpectAndReturn(25, (0));
+
+    Timer_ToggleRequested_CMockExpectAndReturn(26, (1));
+
+    LED_Toggle_CMockExpect(27);
+
+
+
+    System_AbortRequested_CMockExpectAndReturn(29, (1));
 
 
 
