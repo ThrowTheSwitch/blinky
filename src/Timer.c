@@ -1,5 +1,6 @@
 #include "Timer.h"
-#include "interrupt.h"
+#include <avr/interrupt.h>
+#include <avr/io.h>
 
 #ifdef TEST
 char TCCR0B;

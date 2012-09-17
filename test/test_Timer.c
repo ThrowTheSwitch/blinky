@@ -1,6 +1,6 @@
 #include "unity.h"
 #include "Timer.h"
-#include "Mockstub_interrupt.h"
+#include "Mockinterrupt.h"
 
 extern char TCCR0B;
 extern char TIMSK0;
