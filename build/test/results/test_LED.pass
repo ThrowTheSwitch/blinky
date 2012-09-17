@@ -1,19 +1,19 @@
 --- 
-:stdout: []
+:ignores: []
 
-:counts: 
-  :ignored: 1
-  :total: 1
-  :passed: 0
-  :failed: 0
 :source: 
   :path: test
   :file: test_LED.c
-:successes: []
+:stdout: []
 
+:successes: 
+- :test: test_LED_Init_should_initialize_the_LED_OFF
+  :message: ""
+  :line: 13
+:counts: 
+  :total: 1
+  :failed: 0
+  :ignored: 0
+  :passed: 1
 :failures: []
 
-:ignores: 
-- :test: test_module_generator_needs_to_be_implemented
-  :message: Implement me!
-  :line: 14

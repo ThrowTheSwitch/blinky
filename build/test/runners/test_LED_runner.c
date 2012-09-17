@@ -30,7 +30,7 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_module_generator_needs_to_be_implemented(void);
+extern void test_LED_Init_should_initialize_the_LED_OFF(void);
 
 
 //=======Test Reset Option=====
@@ -46,7 +46,7 @@ int main(void)
 {
   Unity.TestFile = "test_LED.c";
   UnityBegin();
-  RUN_TEST(test_module_generator_needs_to_be_implemented, 12);
+  RUN_TEST(test_LED_Init_should_initialize_the_LED_OFF, 13);
 
   return (UnityEnd());
 }

@@ -26,7 +26,7 @@
 #include "cmock.h"
 #include <setjmp.h>
 #include <stdio.h>
-#include "Mockstub_interrupt.h"
+#include "Mockinterrupt.h"
 
 int GlobalExpectCount;
 int GlobalVerifyOrder;
@@ -44,15 +44,15 @@ static void CMock_Init(void)
   GlobalExpectCount = 0;
   GlobalVerifyOrder = 0;
   GlobalOrderError = NULL;
-  Mockstub_interrupt_Init();
+  Mockinterrupt_Init();
 }
 static void CMock_Verify(void)
 {
-  Mockstub_interrupt_Verify();
+  Mockinterrupt_Verify();
 }
 static void CMock_Destroy(void)
 {
-  Mockstub_interrupt_Destroy();
+  Mockinterrupt_Destroy();
 }
 
 //=======Test Reset Option=====
